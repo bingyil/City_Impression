@@ -1,0 +1,30 @@
+./spark-ec2 -k Guoqiang_Oregon -i /Users/asen/Downloads/Guoqiang_Oregon.pem -s 4 -r us-west-2 -z us-west-2a launch yelp
+
+./spark-ec2 -k Guoqiang_Oregon -i /Users/asen/Downloads/Guoqiang_Oregon.pem -r us-west-2 -z us-west-2a login yelp
+
+./spark-ec2 -k Guoqiang_Oregon -i /Users/asen/Downloads/Guoqiang_Oregon.pem -s 4 -r us-west-2 -z us-west-2a --instance-type m3.large --ebs-vol-type gp2 --ebs-vol-size 30 launch foodie
+
+./spark-ec2 -k Guoqiang_Oregon -i /Users/asen/Downloads/Guoqiang_Oregon.pem -r us-west-2 -z us-west-2a login foodie
+
+
+ssh -i /Users/asen/Downloads/Guoqiang_Oregon.pem ec2-user@ec2-54-186-189-193.us-west-2.compute.amazonaws.com
+
+sudo vi /etc/yum.repos.d/mongodb-org-3.2.repo
+
+[mongodb-org-3.2]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.2/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-3.2.asc
+
+sudo yum install -y mongodb-org
+
+sudo vi /etc/mongod.conf
+
+sudo service mongod start
+
+sudo chmod -R 777 /var/lib/hive/metastore/metastore_db
+
+pyspark --packages org.mongodb.spark:mongo-spark-connector_2.11:2.2.0
+pyspark --packages com.amazonaws:aws-java-sdk-pom:1.10.34,org.apache.hadoop:hadoop-aws:2.7.2
